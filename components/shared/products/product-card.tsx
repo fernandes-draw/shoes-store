@@ -2,8 +2,9 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import Image from 'next/image';
 import Link from 'next/link';
 import ProductPrice from './product-price';
+import { Product } from '@/types';
 
-const ProductCard = ({ product }: { product: any }) => {
+const ProductCard = ({ product }: { product: Product }) => {
   return (
     <Card className='w-full max-w-sm'>
       <CardHeader className='p-0 items-center'>
@@ -14,7 +15,7 @@ const ProductCard = ({ product }: { product: any }) => {
             width={300}
             height={300}
             priority={true}
-            className='min-h-[250px] object-cover p-2'
+            className='min-h-[250px] object-contain'
           />
         </Link>
       </CardHeader>
@@ -23,6 +24,35 @@ const ProductCard = ({ product }: { product: any }) => {
         <Link href={`product/${product.slug}`}>
           <h2 className='text-sm font-medium'>{product.name}</h2>
         </Link>
+
+        {/* display color */}
+        <div className='flex items-center gap-2'>
+          <p className='text-md'> Color:</p>
+          <div className='flex gap-1'>
+            {product.colors?.map((color: string, index: number) => (
+              <div
+                key={index}
+                className='w-5 h-5 rounded-full border'
+                style={{ backgroundColor: color }}
+                title={color}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* display sizes */}
+        <div className='flex items-center gap-2'>
+          <p className='text-md'> Size:</p>
+          <div className='flex gap-1'>
+            {product.sizes?.map((sizes: string, index: number) => (
+              <div
+                key={index}
+                className='px-2 py-1 text-xs font-medium rounded-md border'>
+                {sizes}
+              </div>
+            ))}
+          </div>
+        </div>
         <div className='flex-between gap-2'>
           <p>{product.rating} Stars</p>
           {product.stock > 0 ? (
